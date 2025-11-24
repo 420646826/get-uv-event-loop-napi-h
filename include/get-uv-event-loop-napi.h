@@ -11,7 +11,7 @@
 inline
 uv_loop_t* get_uv_event_loop(napi_env env) {
   typedef napi_status (*get_uv_event_loop_fn)(napi_env env, uv_loop_t** loop);
-  get_uv_event_loop_fn napi_get_uv_event_loop__ = NULL;
+  get_uv_event_loop_fn napi_get_uv_event_loop__ = nullptr;
   uint32_t napi_version = 0;
   napi_status status;
   status = napi_get_version(env, &napi_version);
@@ -23,7 +23,7 @@ uv_loop_t* get_uv_event_loop(napi_env env) {
   napi_get_uv_event_loop__ = (get_uv_event_loop_fn)
       get_symbol_from_current_process("napi_get_uv_event_loop");
 #else
-  napi_get_uv_event_loop__ = &napi_get_uv_event_loop;
+  napi_get_uv_event_loop__ = reinterpret_cast<get_uv_event_loop_fn>(napi_get_uv_event_loop);
 #endif
 
   uv_loop_t* ret;
